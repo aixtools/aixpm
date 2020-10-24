@@ -1,5 +1,5 @@
----
 # defaults file for aixpm
+---
 package:
   - name: NULL
     src: "/usr/sys/inst.images"
