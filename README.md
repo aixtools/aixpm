@@ -73,3 +73,27 @@ Issues with this role can be opened on github: @aixtools/aixpm.
 Also, old-school forums at http://forums.rootvg.net/aixtools.
 
 Somedays - old-school is faster than new-tricks :)
+
+# defaults for aixpm
+---
+# where packages get copied to
+# tbd: check for existence of file in {{ images }}
+images: "/usr/sys/inst.images"
+type:   installp
+state:  present
+installp_flags: "agX"
+# tbd: setting accept to 'no' as is AIX default
+accept_license: yes
+
+requirements.bash:
+  - name: bash
+    installs: "/opt/bin/bash"
+    lpp:    "aixtools.gnu.bash"
+    vrmf: "5.0.18.0"
+    lppg: ['aixtools.gnu.bash.rte', aixtools.gnu.bash.share']
+    lppdoc: 'aixtools.gnu.bash.man'
+    src: "download.aixtools.net/tools/gnu/"
+    src_t: 'http'
+    url: "{{src_t}}://{{src}}/{{lpp}}.{{vrmf}}.I"
+    chksum: "md5:E6106A3CF9A82B4E8785003F587ECA13"
+

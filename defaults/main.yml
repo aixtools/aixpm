@@ -1,8 +1,14 @@
 # defaults file for aixpm
 ---
-package:
-  - name: NULL
+# packages - plural - to process as list of packages
+- packages: []
+- package:
+  - name: 'defaults'
+    lpp:  NULL
     src: "/usr/sys/inst.images"
     src_type: fs
+    images: "/usr/sys/inst.images"
     type: installp
     version: ""
+# state applies to all packages
+- state:  "present"

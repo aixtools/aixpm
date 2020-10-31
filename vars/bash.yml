@@ -1,8 +1,14 @@
 ---
 # Install variables for bash
-tools: "http://download.aixtools.net/tools/gnu/"
-lpp: "aixtools.gnu.bash"
-vrmf: "5.0.18.0"
-chksum: "md5:E6106A3CF9A82B4E8785003F587ECA13"
-tmpd: "/tmp/aixpm"
-installs: "/opt/bin/bash"
+requirements.bash:
+  - name: bash
+    installs: "/opt/bin/bash"
+    lpp:    "aixtools.gnu.bash"
+    vrmf: "5.0.18.0"
+    lppg: ['aixtools.gnu.bash.rte', aixtools.gnu.bash.share']
+    lppdoc: 'aixtools.gnu.bash.man'
+    src: "download.aixtools.net/tools/gnu/"
+    src_t: 'http'
+    # TBD: Move url out of vars and into task
+    url: "{{src_t}}://{{src}}/{{lpp}}.{{vrmf}}.I"
+    chksum: "md5:E6106A3CF9A82B4E8785003F587ECA13"
