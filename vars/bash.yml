@@ -1,14 +1,15 @@
----
 # Install variables for bash
-requirements.bash:
-  - name: bash
-    installs: "/opt/bin/bash"
+# pkg_creates is tested. If it exists, no further steps are taken
+# {{ packages }} contains one or more files to download.
+# {{ src_t(ype) }} will be used later to modify the 'fetch' behavior
+---
+pkg_creates: "/opt/bin/bash"
+packages:
+  - package: bash
     lpp:    "aixtools.gnu.bash"
     vrmf: "5.0.18.0"
-    lppg: ['aixtools.gnu.bash.rte', aixtools.gnu.bash.share']
-    lppdoc: 'aixtools.gnu.bash.man'
-    src: "download.aixtools.net/tools/gnu/"
+    lppg: [aixtools.gnu.bash.rte, aixtools.gnu.bash.share]
+    lppdoc: aixtools.gnu.bash.man
+    src: "{{ src }}gnu/"
     src_t: 'http'
-    # TBD: Move url out of vars and into task
-    url: "{{src_t}}://{{src}}/{{lpp}}.{{vrmf}}.I"
     chksum: "md5:E6106A3CF9A82B4E8785003F587ECA13"

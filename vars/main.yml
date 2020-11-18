@@ -1,2 +1,4 @@
 ---
 # vars file for aixpm
+src: "download.aixtools.net/tools/"
+src_t: 'http'

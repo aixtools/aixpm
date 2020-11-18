@@ -8,24 +8,31 @@
 
 # Check to see if a file that is included in package already exists
 # Block below will skip if file exists.
-- stat:
-    path: "{{ installs }}"
+- name: "Check status of {{ pkg_creates }}"
+  stat:
+    path: "{{ pkg_creates }}"
   register: tgt
 - block:
-  - name: Prepare to Download {{ pkg_name }}
+  - name: Get PPID
+    shell: 'echo $PPID'
+    register: ppid
+    changed_when: false
+  - name: "Create {{ images }}.{{ ppid.stdout }}"
     file:
-        path: "{{ tmpd }}"
-        state: directory
-  - name: "Download {{ lpp }}"
+      path: "{{ images }}.{{ ppid.stdout }}"
+      state: directory
+  - name: "Download files for package {{ pkg_name }}"
     get_url:
-      url: "{{ tools }}{{ lpp }}.{{ vrmf }}.I"
-      dest: "{{ tmpd }}"
-      checksum: "{{ chksum }}"
-  - name: "Install {{ pkg_name }} including {{ installs }} from {{ lpp }}"
+      url: "{{item.src_t}}://{{item.src}}{{item.lpp}}.{{item.vrmf}}.I"
+      checksum: "{{ item.chksum }}"
+      dest: "{{ images }}.{{ ppid.stdout }}"
+    with_items:
+      - "{{ packages }}"
+  - name: "Install {{ pkg_name }}"
     command:
-      cmd: "/usr/sbin/installp -d {{ tmpd }} -agYX all"
-      creates: "{{ installs }}"
+      cmd: "/usr/sbin/installp -d {{ images }}.{{ ppid.stdout }} -agYX all"
+      creates: "{{ pkg_creates }}"
     register: installp
-  - name: Cleanup {{ tmpd }}
-    file: "path={{ tmpd }} state=absent"
+  - name: Cleanup {{ images }}.{{ ppid.stdout }}
+    file: "path={{ images }}.{{ ppid.stdout }} state=absent"
   when: tgt.stat.exists == false

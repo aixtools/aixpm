@@ -1,14 +1,15 @@
 # defaults file for aixpm
 ---
+# default is to install aka present
+state:  "present"
+# local location of collected installp/rpm images/files
+images: '/tmp/aixpm/images'
 # packages - plural - to process as list of packages
-- packages: []
-- package:
-  - name: 'defaults'
-    lpp:  NULL
+# - packages: []
+packages:
+  - package: 'defaults'
+    lpp:  ""
     src: "/usr/sys/inst.images"
-    src_type: fs
-    images: "/usr/sys/inst.images"
+    src_t: fs
     type: installp
     version: ""
-# state applies to all packages
-- state:  "present"
